@@ -1,0 +1,47 @@
+.loading-screen {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  background-image: url("../../assets/back-loader.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: 10;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.loading-screen__title {
+  margin: 0;
+  font-size: 70px;
+  max-width: 470px;
+  margin-bottom: 24px;
+}
+
+.loading-screen__title span {
+  color: var(--gold-color);
+}
+
+.loading-screen__descr {
+  font-size: 8px;
+  opacity: 88%;
+  max-width: 239px;
+  line-height: 12px;
+  margin-bottom: 32px;
+}
+
+.loading-screen__links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.loading-screen__links a img {
+    width: 38px;
+}
