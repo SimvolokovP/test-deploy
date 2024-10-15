@@ -12,16 +12,22 @@
   background-size: cover;
   background-position: center;
   z-index: 10;
+  background-color: var(--gold-color);
   flex-direction: column;
   align-items: center;
   text-align: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.loading-screen img {
+  width: 280px;
 }
 
 .loading-screen__title {
   margin: 0;
   font-size: 70px;
   max-width: 470px;
-  margin-bottom: 24px;
 }
 
 .loading-screen__title span {
@@ -33,7 +39,6 @@
   opacity: 88%;
   max-width: 239px;
   line-height: 12px;
-  margin-bottom: 32px;
 }
 
 .loading-screen__links {
@@ -43,5 +48,5 @@
 }
 
 .loading-screen__links a img {
-    width: 38px;
+  width: 38px;
 }

@@ -2,7 +2,7 @@ import coin from "../../assets/coin.png";
 import { useTg } from "../../hooks/useTg";
 import "./ScoreBlock.css";
 
-const ScoreBlock = () => {
+const ScoreBlock = ({ userData }) => {
   const { user } = useTg();
 
   return (
@@ -13,7 +13,7 @@ const ScoreBlock = () => {
       </div>
       <div className="score-block__score">
         <img src={coin} alt="coin" />
-        <div>1023</div>
+        <div>{userData?.score}</div>
       </div>
     </div>
   );

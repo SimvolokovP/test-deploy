@@ -1,23 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AppRouter from "./components/AppRouter/AppRouter";
-import LoadingScreen from "./components/LoadingScreen/LoadingScreen";
 import MobileBar from "./components/MobileBar/MobileBar";
+import { useTg } from "./hooks/useTg";
 
 function App() {
-  const [fakeLoading, setFakeLoading] = useState(true);
+  const { tg } = useTg();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setFakeLoading(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
+    tg.ready();
+    tg.expand();
   }, []);
 
   return (
     <>
       <main>
-        {fakeLoading && <LoadingScreen />}
         <AppRouter />
         <div className="container">
           <MobileBar />

@@ -27,7 +27,8 @@
 
 .score-block__score {
   display: flex;
-  gap: 19px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .score-block__score img {
@@ -36,5 +37,5 @@
 
 .score-block__score div {
   padding-top: 4px;
-  font-size: 56px;
+  font-size: calc(1em + 4vw);
 }

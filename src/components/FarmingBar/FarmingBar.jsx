@@ -1,47 +1,88 @@
 import { useState, useEffect } from "react";
 import coin from "../../assets/coin.png";
 import "./FarmingBar.css";
+import UsersService from "../../api/firebaseApi";
+import { Timestamp } from "firebase/firestore";
 
-const FarmingBar = ({ isFarm, setIsFarm }) => {
+const FarmingBar = ({ userData, setUserData }) => {
   const [farmScore, setFarmScore] = useState(0);
+  const [intervalId, setIntervalId] = useState(null);
+  const [farmingDone, setFarmingDone] = useState(false);
+
+  const updateScore = async () => {
+    // Calculate the new score based on the current score and the points earned
+    const newScore = userData.score + (100 - farmScore) * 10;
+    // Round the score to the nearest 1000
+    const roundedScore = Math.round(newScore / 1000) * 1000;
+
+    // Update the user score in the database and local state
+    await UsersService.addUserScore(userData);
+    setUserData({
+      ...userData,
+      score: roundedScore, // Set the rounded score
+      isFarm: false,
+      farmEnd: null,
+    });
+    setFarmingDone(false);
+  };
+
+  const startFarm = async () => {
+    const currentTime = Timestamp.now();
+    const time = new Timestamp(
+      currentTime.seconds + 180,
+      currentTime.nanoseconds
+    );
+
+    if (!userData.isFarm) {
+      await UsersService.updateFarmState(userData, time);
+      setUserData({ ...userData, isFarm: true, farmEnd: time });
+    }
+    console.log(time);
+  };
 
   useEffect(() => {
-    let interval;
+    const updateFarmScore = () => {
+      if (userData.isFarm && userData.farmEnd) {
+        const currentTime = Timestamp.now();
+        const remainingTime = userData.farmEnd.seconds - currentTime.seconds;
 
-    if (isFarm) {
-      interval = setInterval(() => {
-        setFarmScore((prevScore) => {
-          if (prevScore < 100) {
-            return prevScore + 1;
-          } else {
-            clearInterval(interval);
-            return prevScore;
-          }
-        });
-      }, 1000);
-    }
+        if (remainingTime > 0) {
+          const score = ((remainingTime / 180) * 100).toFixed(3);
+          setFarmScore(score);
+        } else {
+          clearInterval(intervalId);
+          setFarmingDone(true);
+        }
+      }
+    };
 
-    return () => clearInterval(interval);
-  }, [isFarm]);
+    const id = setInterval(updateFarmScore, 1000);
+    setIntervalId(id);
+
+    return () => clearInterval(id);
+  }, [userData.isFarm, userData.farmEnd, setUserData]);
 
   return (
-    <div className="farming-bar" onClick={() => setIsFarm(true)}>
-      {!isFarm ? (
+    <div
+      className="farming-bar"
+      onClick={farmingDone ? updateScore : startFarm}
+    >
+      {!userData?.isFarm ? (
         <div>Start Farm</div>
       ) : (
         <>
           <div
             style={{
-              width: `${farmScore}%`,
+              width: `${100 - farmScore}%`,
               maxWidth: "100%",
             }}
             className="farming-bar__progress"
           ></div>
           <div className="farming-bar__inner">
-            <div>Farming</div>
+            <div>{farmingDone ? "Claim" : "Farming"}</div>
             <div>
               <img src={coin} alt="coin" />
-              {farmScore}
+              {((100 - farmScore) * 10).toFixed(3)}
             </div>
           </div>
         </>

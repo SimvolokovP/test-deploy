@@ -7,13 +7,15 @@
   padding: 15px 32px 25px 32px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  margin: 0 10px;
+  margin: 0 auto;
   z-index: 5;
+  max-width: 1200px;
+  text-align: center;
 }
 
 .mobile-bar__list {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 40px;
   justify-content: center;
 }
@@ -40,4 +42,10 @@
 .mobile-bar__link.active svg path {
   fill: var(--gray-color);
   transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .mobile-bar {
+    margin: 0 10px;
+  }
 }

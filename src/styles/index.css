@@ -100,6 +100,28 @@ img {
   filter: blur(90px);
 }
 
+.blur3 {
+  width: 106px;
+  height: 106px;
+  position: fixed;
+  bottom: 210px;
+  left: -70px;
+  background: var(--gold-color);
+  border-radius: 100%;
+  filter: blur(110px);
+}
+
+.blur4 {
+  width: 106px;
+  height: 106px;
+  position: fixed;
+  bottom: 320px;
+  right: -80px;
+  background: var(--gold-color);
+  border-radius: 100%;
+  filter: blur(110px);
+}
+
 .coin1 {
   width: 123px;
   position: fixed;
@@ -121,4 +143,20 @@ img {
   border-radius: 4px;
   padding: 9px 19px;
   font-size: 7px;
+}
+
+.accent-btn {
+  background-color: var(--gold-color);
+  color: var(--text-color);
+  padding: 15px 85px;
+  font-size: 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+}
+
+.accent-btn img {
+  width: 18px;
 }
