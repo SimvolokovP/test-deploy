@@ -10,16 +10,13 @@ const FarmingBar = ({ userData, setUserData }) => {
   const [farmingDone, setFarmingDone] = useState(false);
 
   const updateScore = async () => {
-    // Calculate the new score based on the current score and the points earned
     const newScore = userData.score + (100 - farmScore) * 10;
-    // Round the score to the nearest 1000
     const roundedScore = Math.round(newScore / 1000) * 1000;
 
-    // Update the user score in the database and local state
     await UsersService.addUserScore(userData);
     setUserData({
       ...userData,
-      score: roundedScore, // Set the rounded score
+      score: roundedScore,
       isFarm: false,
       farmEnd: null,
     });
@@ -29,7 +26,7 @@ const FarmingBar = ({ userData, setUserData }) => {
   const startFarm = async () => {
     const currentTime = Timestamp.now();
     const time = new Timestamp(
-      currentTime.seconds + 180,
+      currentTime.seconds + 432000,
       currentTime.nanoseconds
     );
 
@@ -47,7 +44,7 @@ const FarmingBar = ({ userData, setUserData }) => {
         const remainingTime = userData.farmEnd.seconds - currentTime.seconds;
 
         if (remainingTime > 0) {
-          const score = ((remainingTime / 180) * 100).toFixed(3);
+          const score = ((remainingTime / 432000) * 100).toFixed(3);
           setFarmScore(score);
         } else {
           clearInterval(intervalId);
@@ -82,7 +79,7 @@ const FarmingBar = ({ userData, setUserData }) => {
             <div>{farmingDone ? "Claim" : "Farming"}</div>
             <div>
               <img src={coin} alt="coin" />
-              {((100 - farmScore) * 10).toFixed(3)}
+              {((100 - farmScore) * 10).toFixed(4)}
             </div>
           </div>
         </>
